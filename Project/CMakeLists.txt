@@ -8,7 +8,7 @@ project (NoRemorse)
 
 # Include sub-projects.
 
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Recursively find all .cpp and .h files in the src directory
