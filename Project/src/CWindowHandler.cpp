@@ -17,6 +17,10 @@ void CWindowHandler::Cleanup(){
 }
 
 
+void CWindowHandler::ChangeWindowSize(int x, int y) {
+	// In the case where the window's size changes, we adjust the window size
+	SDL_SetWindowSize(m_pWindow, x, y);
+}
 
 bool CWindowHandler::CreateWindow(const char* window_title, int x, int y, int w, int h, int SDL_Flags) {
 	bool b_Flag = true;

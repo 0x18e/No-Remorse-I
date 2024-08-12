@@ -14,7 +14,7 @@ CRenderer::~CRenderer() {
 bool CRenderer::Initialize(SDL_Window *window) {
 	bool b_Flag = true;
 
-	int n_RendererFlags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
+	int n_RendererFlags = SDL_RENDERER_ACCELERATED;//| SDL_RENDERER_PRESENTVSYNC;
 	// Attempt to create an SDL_Renderer
 	m_pRenderer = SDL_CreateRenderer(window, -1, n_RendererFlags);
 	if (m_pRenderer == nullptr) {

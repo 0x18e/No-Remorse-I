@@ -7,14 +7,13 @@
 
 class CBasePlayer : public CEntity {
 private:
-	float m_PlayerSpeed = 2;
+	float m_PlayerSpeed = 400;
 	int m_nMousePositionX = 0;
 	int m_nMousePositionY = 0;
+	bool m_bIsShooting = false;
 	CWeapon m_Gun;
 	
 
-
-	
 	struct DIRECTIONS {
 		int UP = 0;
 		int DOWN = 0;
@@ -27,14 +26,18 @@ public:
 	~CBasePlayer();
 
 	void Init(SDL_Renderer* renderer, const char* path_to_texture, Vector2 initial_position);
-	
-
-	
-
-	void WeaponHandler(SDL_Renderer* renderer, int windowx, int windowy);
-	void InputHandler(const SDL_Event& key, SDL_Renderer* renderer);
-	void Move();
-	void HandleRotation();
 	void Destroy();
+
+	
+
+	void WeaponUpdate(int windowx, int windowy, const float& dt);
+	void WeaponRenderer(SDL_Renderer* renderer, int windowx, int windowy);
+	std::vector<CBullet*> GetWeaponBullets() { return m_Gun.GetBullets(); }
+
+	void InputHandler(const SDL_Event& key, SDL_Renderer* renderer);
+	void Move(float dt, Vector2 camera);
+	void HandleRotation();
+
+
 
 };

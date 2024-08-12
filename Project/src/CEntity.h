@@ -7,6 +7,8 @@ protected:
 	CTextureHandler m_EntityTexture;
 	Vector2 m_Position;
 	Vector2 m_Velocity;
+	Vector2 m_CollisionBox; // maybe remove
+	std::string id;
 	double m_dAngle;
 	int m_nScale;
 public:
@@ -14,6 +16,14 @@ public:
 	~CEntity();
 
 	void Render(SDL_Renderer* renderer, SDL_Rect* clip = nullptr, SDL_Point* center = nullptr, SDL_RendererFlip fliptype = SDL_RendererFlip::SDL_FLIP_NONE);
+	void AdjustForResolution(Vector2 newres, Vector2 oldres);
 	
+	bool IsCollided(CEntity &collider);
+	
+	
+	// Define in .cpp later
+	Vector2 GetPosition() { return m_Position; };
+	Vector2 GetDimensions() { return Vector2(m_EntityTexture.GetWidth(), m_EntityTexture.GetHeight()); };
+
 	
 };

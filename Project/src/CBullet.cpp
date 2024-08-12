@@ -16,8 +16,12 @@ void CBullet::SetBulletSpeed(float bullet_speed) {
 	this->m_BulletSpeed = bullet_speed;
 }
 
-void CBullet::UpdatePosition() {
-	m_Position += m_Velocity;
+void CBullet::UpdatePosition(float dt) {
+	m_Position += m_Velocity * dt;
+}
+
+void CBullet::SetKillFlag(bool is_dead) {
+	m_KillFlag = true;
 }
 
 bool CBullet::IsOffScreen(int windowx, int windowy) {
@@ -27,6 +31,7 @@ bool CBullet::IsOffScreen(int windowx, int windowy) {
 	return false;
 }
 
+// Inefficient, find a way to call CEntity's destructor
 void CBullet::Cleanup() {
 	this->m_EntityTexture.Cleanup();
 }

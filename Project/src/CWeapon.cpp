@@ -7,9 +7,9 @@ void CWeapon::Shoot(SDL_Renderer* renderer, double player_angle, Vector2 player_
 
 	
 	Vector2 mouse_position = GetMousePosition();
-
+	
 	Vector2 direction_vector = UnitVector(mouse_position - player_position);
-	bullet->SetBulletSpeed(m_BulletSpeed);
+	bullet->SetBulletSpeed(m_fWeaponSpeed);
 	bullet->SetBulletVelocity(direction_vector);
 	
 	m_Bullets.push_back(bullet);
@@ -23,11 +23,27 @@ void CWeapon::Cleanup() {
 
 }
 
-void CWeapon::UpdateBullets(SDL_Renderer *renderer, int windowx, int windowy) {
+void CWeapon::UpdateBullets(int windowx, int windowy, const float& dt) {
 	for (size_t bullet = 0; bullet < m_Bullets.size(); ++bullet) {
-		m_Bullets[bullet]->UpdatePosition();
-		m_Bullets[bullet]->Render(renderer);
-		if (m_Bullets[bullet]->IsOffScreen(windowx, windowy)) {
+		m_Bullets[bullet]->UpdatePosition(dt);
+		/*
+		for (size_t enem = 0; enem < enemies.size(); ++enem) {
+			if (m_Bullets[bullet]->IsCollided(*enemies[bullet])){ // enemies[enem]->IsCollided(*m_Bullets[bullet] {
+
+				
+				enemies[enem]->Cleanup();
+				std::vector<CEnemy*>::iterator enemy_iterator = enemies.begin();
+				std::advance(enemy_iterator, enem);
+				enemies.erase(enemy_iterator);
+
+
+				m_Bullets[bullet]->SetKillFlag(true);
+				
+			}
+
+		}
+		*/
+		if (m_Bullets[bullet]->IsOffScreen(windowx, windowy) || m_Bullets[bullet]->GetKillFlag()) {
 			m_Bullets[bullet]->Cleanup();
 			std::vector<CBullet*>::iterator it = m_Bullets.begin();
 			std::advance(it, bullet);
@@ -36,6 +52,17 @@ void CWeapon::UpdateBullets(SDL_Renderer *renderer, int windowx, int windowy) {
 		}
 	}
 }
+void CWeapon::RenderBullets(SDL_Renderer* renderer) {
+	for (size_t bullet = 0; bullet < m_Bullets.size(); ++bullet) {
+		m_Bullets[bullet]->Render(renderer);
+	}
+}
+
+void CWeapon::SetWeaponSpeed(float speed) {
+	m_fWeaponSpeed = speed;
+}
+
+
 Vector2 CWeapon::GetMousePosition() {
 	SDL_GetMouseState(&m_MouseX, &m_MouseY);
 	return Vector2(m_MouseX, m_MouseY);

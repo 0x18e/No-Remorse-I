@@ -3,6 +3,7 @@
 #include "CEntity.h"
 #include<vector>
 #include "CBullet.h"
+#include "CEnemies.h"
 
 
 // Will do for now.
@@ -13,13 +14,15 @@ private:
 	Vector2 GetMousePosition();
 	int m_MouseX = 0;
 	int m_MouseY = 0;
-	float m_BulletSpeed = 6.0f;
+	float m_fWeaponSpeed = 1000.0f;
 public:
 
-
+	std::vector<CBullet*> GetBullets() { return m_Bullets; }
 	void Shoot(SDL_Renderer* renderer, double player_angle, Vector2 player_position);
+	void SetWeaponSpeed(float speed);
 	void Cleanup();
-	void UpdateBullets(SDL_Renderer* renderer, int windowx, int windowy);
+	void UpdateBullets(int windowx, int windowy, const float& dt);
+	void RenderBullets(SDL_Renderer* renderer);
 };
 
 

@@ -111,6 +111,10 @@ Vector2 Vector2::operator/(const Vector2& v_vec){
 	return Vector2(this->x / v_vec.x, this->y / v_vec.y);
 }
 
+Vector2 Vector2::operator/(const float f_divisor) {
+	return Vector2(x/f_divisor, y/f_divisor);
+}
+
 Vector2& Vector2::operator*=(const float& scale){
 	this->x *= scale;
 	this->y *= scale;

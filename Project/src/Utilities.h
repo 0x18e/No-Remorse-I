@@ -4,13 +4,15 @@
 
 // Debug tools
 // Logging
-#define DEBUG 1
+#define DEBUG 0
 #if DEBUG
 
 #define LOG(x) std::cout << x << "\n"
 #else
 #define LOG(x)
 #endif 
+
+// Add mersenne twister to create random floating point numbers (reason, add inaccuracy to bullets)
 
 // Point Struct used to denote a 2-Dimensional point. This might be useless.
 struct Point {
@@ -66,10 +68,9 @@ struct Vector2 {
 	Vector2 operator/(const float f_divisor); 
 	Vector2 operator/=(const float f_divisor);
 	
-	// Vector Multiplication with Scalar
+	// Vector Multiplication
 	Vector2& operator*=(const float& scale);
 	Vector2 operator*(const float& scale);
-	// Vector Multiplication
 	Vector2 operator*(const Vector2& v_vec);
 	Vector2& operator*=(const Vector2& v_vec);
 	

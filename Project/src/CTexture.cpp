@@ -3,7 +3,7 @@
 
 
 bool CTextureHandler::LoadTexture(SDL_Renderer* renderer, const char* path, std::string id) {
-	//this->Cleanup();
+	
 	SDL_Texture* tmp_texture = IMG_LoadTexture(renderer, path);
 	if (tmp_texture == nullptr) {
 		LOG("SDL could not create texture from IMG: " << IMG_GetError());
@@ -13,7 +13,7 @@ bool CTextureHandler::LoadTexture(SDL_Renderer* renderer, const char* path, std:
 		SDL_QueryTexture(tmp_texture, nullptr, nullptr, &m_nWidth, &m_nHeight);
 		m_nWidth *= m_nScale;
 		m_nHeight *= m_nScale;
-		LOG("Texture width and height : " << m_nWidth << ", " << m_nHeight);
+		//LOG("Texture width and height : " << m_nWidth << ", " << m_nHeight);
 	}
 	m_Textures[id] = tmp_texture;
 	return m_Textures[id] != nullptr;
@@ -53,7 +53,7 @@ void CTextureHandler::Cleanup() {
 	for (auto value : m_Textures) {
 		if (value.second != nullptr) {
 			SDL_DestroyTexture(value.second);
-			LOG("Destroyed " << value.first);
+			//LOG("Destroyed " << value.first << " animation");
 			value.second = nullptr;
 		}
 	}

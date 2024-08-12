@@ -19,7 +19,7 @@ public:
 	bool CreateWindow(const char* window_title, int x, int y, int w, int h, int SDL_Flags);
 
 	SDL_Window* GetWindow() { return m_pWindow; };
-
+	void ChangeWindowSize(int x, int y);
 	// Cleanup
 	void Cleanup();
 
