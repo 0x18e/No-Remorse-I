@@ -1,6 +1,16 @@
 #include "Utilities.h"
 
 
+std::random_device rd;
+std::mt19937 rng{ rd() };
+float GetRandomNumber(float rangex, float rangey) {
+
+
+	std::uniform_real_distribution<float> r(rangex, rangey);
+
+	return r(rng);
+}
+
 
 // This constructor works
 Point::Point(float x, float y) : x(0.0f), y(0.0f){

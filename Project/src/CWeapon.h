@@ -4,6 +4,7 @@
 #include<vector>
 #include "CBullet.h"
 #include "CEnemies.h"
+#include "Utilities.h"
 
 
 // Will do for now.

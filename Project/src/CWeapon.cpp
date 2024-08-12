@@ -7,6 +7,7 @@ void CWeapon::Shoot(SDL_Renderer* renderer, double player_angle, Vector2 player_
 
 	
 	Vector2 mouse_position = GetMousePosition();
+	mouse_position += Vector2(GetRandomNumber(-20, 20), GetRandomNumber(-20, 20)); // add inacuraccy
 	
 	Vector2 direction_vector = UnitVector(mouse_position - player_position);
 	bullet->SetBulletSpeed(m_fWeaponSpeed);
@@ -20,7 +21,6 @@ void CWeapon::Cleanup() {
 		m_Bullets[i]->Cleanup();
 		delete m_Bullets[i];
 	}
-
 }
 
 void CWeapon::UpdateBullets(int windowx, int windowy, const float& dt) {

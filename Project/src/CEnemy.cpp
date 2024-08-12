@@ -6,7 +6,7 @@ void CEnemy::Init(SDL_Renderer* renderer, std::vector<const char*> anim_paths, V
 	for (size_t i = 0; i < anim_paths.size(); ++i) {
 		m_EntityTexture.LoadTexture(renderer, anim_paths[i], id);
 	}
-	m_EntityTexture.SetScale(1);
+	m_EntityTexture.SetScale(2);
 	m_Velocity.x = m_fEnemySpeed;
 	m_Velocity.y = m_fEnemySpeed;
 }
@@ -27,6 +27,9 @@ void CEnemy::ChasePlayer(Vector2 player_position) {
 	else {
 		m_Velocity = unit_vec * m_fEnemySpeed;
 	}
+	// this might be very costly
+	m_dAngle = atan2(long(player_position.y - m_Position.y), long(player_position.x- m_Position.x)) * long(180 / M_PI);
+
 	
 }
 
@@ -39,11 +42,16 @@ void CEnemy::SetEnemySpeed(float speed) {
 }
 
 void CEnemy::Die(){
+	// This is primarily bad because there might be no death texture added...
+	m_bIsAlive = false;
 	this->m_EntityTexture.SetCurrentTexture("enemy_dead");
 }
 
 void CEnemy::Update(float dt) {
 	m_Position += m_Velocity * dt;
+	if (m_nHealth <= 0) {
+		this->Die();
+	}
 }
 
 

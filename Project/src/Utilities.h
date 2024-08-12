@@ -1,10 +1,11 @@
 #pragma once
 #include<iostream>
+#include<random>
 
 
 // Debug tools
 // Logging
-#define DEBUG 0
+#define DEBUG 1
 #if DEBUG
 
 #define LOG(x) std::cout << x << "\n"
@@ -13,6 +14,9 @@
 #endif 
 
 // Add mersenne twister to create random floating point numbers (reason, add inaccuracy to bullets)
+
+float GetRandomNumber(float rangex, float rangey);
+
 
 // Point Struct used to denote a 2-Dimensional point. This might be useless.
 struct Point {

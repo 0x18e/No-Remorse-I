@@ -4,7 +4,7 @@
 
 class CEnemy : public CEntity{
 private:
-	int m_nHealth = 40;
+	int m_nHealth = 150;
 	float m_fEnemySpeed = 600;
 	bool m_bIsAlive = true;
 	const char* path_to_death_sprite; // Ensure that every enemy that is created has a death sprite

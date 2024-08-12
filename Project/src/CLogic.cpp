@@ -42,9 +42,14 @@ void CLogic::Update(float dt) {
 	m_Player.WeaponUpdate(m_nWindowWidth, m_nWindowHeight, dt);
 
 	for (size_t it = 0; it < m_pEnemies.size(); ++it) {
+		
 		if (m_pEnemies[it]->IsAlive()) {
 			m_pEnemies[it]->ChasePlayer(m_Player.GetPosition());
+	
 			m_pEnemies[it]->Update(dt);
+		}
+		else {
+			m_pEnemies[it]->Die();
 		}
 	}
 	
@@ -54,7 +59,7 @@ void CLogic::Update(float dt) {
 		for (CEnemy* enemy : m_pEnemies) {
 			if (bullet->IsCollided(*enemy)) {
 				LOG("Hit");
-				
+				enemy->TakeDamage(50); // arbitrary random number i chose, this will be replaced with bullet damage
 				bullet->SetKillFlag(true);
 			}
 		}

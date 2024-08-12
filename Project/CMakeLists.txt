@@ -41,18 +41,7 @@ FetchContent_MakeAvailable(SDL2_image)
 # Link SDL2 and SDL2_image with your project
 target_link_libraries(NoRemorse PRIVATE SDL2::SDL2 SDL2::SDL2main SDL2_image::SDL2_image)
 
-if(WIN32)
-    add_custom_command(TARGET NoRemorse POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "$<TARGET_FILE:SDL2>"  # SDL2.dll
-            "$<TARGET_FILE_DIR:NoRemorse>"  # Output directory
-    )
-    add_custom_command(TARGET NoRemorse POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "$<TARGET_FILE:SDL2_image>"  # SDL2_image.dll
-            "$<TARGET_FILE_DIR:NoRemorse>"  # Output directory
-    )
-endif()
+
 
 # Copy sprites folder to the output directory
 add_custom_command(TARGET NoRemorse POST_BUILD
