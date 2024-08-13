@@ -5,6 +5,7 @@
 #include "CRenderer.h"
 #include "CLogic.h"
 #include "Clock.h"
+#include "CSoundManager.h"
 
 class CEngine {
 private:

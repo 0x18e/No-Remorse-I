@@ -38,11 +38,6 @@ void CTextureHandler::SetCurrentTexture(std::string id) {
 }
 
 
-
-
-
-
-
 void CTextureHandler::SetScale(int scale) {
 	m_nScale = scale;
 	m_nWidth *= m_nScale;

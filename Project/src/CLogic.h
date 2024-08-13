@@ -3,6 +3,7 @@
 #include<SDL.h>
 #include "CBasePlayer.h"
 #include "CEnemies.h"
+#include "CSoundManager.h"
 
 class CLogic {
 	

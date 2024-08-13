@@ -13,9 +13,10 @@ bool CEngine::Initialize(){
 	bool SDLCheck = m_SDLManager.InitSDL();
 	bool WindowCheck = m_Window.CreateWindow("Lorem Ipsum", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_nWindowWidth, m_nWindowHeight, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	bool RendererCheck = m_Renderer.Initialize(m_Window.GetWindow());
+	bool AudioCheck = CSoundManager::Get().Init();
 	m_GameLogic.Init(m_Renderer.GetRenderer(), m_nWindowWidth, m_nWindowHeight);
 	
-	return SDLCheck && WindowCheck && RendererCheck;
+	return SDLCheck && WindowCheck && RendererCheck && AudioCheck;
 }
 
 void CEngine::Run() {

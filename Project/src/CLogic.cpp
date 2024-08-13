@@ -14,8 +14,6 @@ void CLogic::Init(SDL_Renderer* renderer, int WindowWidth, int WindowHeight) {
 	m_nWindowHeight = WindowHeight;
 
 	
-
-	
 	// Explicit conversion to avoid compiler warnings barking at me
 	m_Player.Init(m_pRenderer, "sprites/girl_right.png", Vector2((float)(m_nWindowWidth / 2), (float)(m_nWindowHeight / 2)));
 	
@@ -45,22 +43,28 @@ void CLogic::Update(float dt) {
 		
 		if (m_pEnemies[it]->IsAlive()) {
 			m_pEnemies[it]->ChasePlayer(m_Player.GetPosition());
-	
 			m_pEnemies[it]->Update(dt);
 		}
 		else {
+			// LAZY CODE FIX LATER
 			m_pEnemies[it]->Die();
+			
 		}
 	}
 	
-	// Collision Checks
-
-	for (CBullet* bullet : m_Player.GetWeaponBullets()) {
-		for (CEnemy* enemy : m_pEnemies) {
-			if (bullet->IsCollided(*enemy)) {
-				LOG("Hit");
-				enemy->TakeDamage(50); // arbitrary random number i chose, this will be replaced with bullet damage
-				bullet->SetKillFlag(true);
+	// Collision Checks will be changed later on to use quadtrees instead
+	if (m_Player.GetWeaponBullets().size() > 0) {
+		for (CBullet* bullet : m_Player.GetWeaponBullets()) {
+			for (CEnemy* enemy : m_pEnemies) {
+				if (enemy->IsAlive() != false) {
+					if (bullet->IsCollided(*enemy)) {
+						LOG("Hit");
+						enemy->TakeDamage(50); // arbitrary random number i chose, this will be replaced with bullet damage
+						enemy->KnockBack(Vector2(10, 10)); // Arbitrary random numbers for impact force
+						CSoundManager::Get().PlaySound("enemy_hit");
+						bullet->SetKillFlag(true);
+					}
+				}
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 #pragma once
 #include "CEntity.h"
 #include <vector>
+#include "CSoundManager.h"
 
 class CEnemy : public CEntity{
 private:
@@ -16,6 +17,7 @@ public:
 	void TakeDamage(int damage);
 	void SetEnemySpeed(float speed);
 	int GetHealth() { return m_nHealth; }
+	void KnockBack(Vector2 impact_force);
 	void Die();
 	void Update(float dt);
 	void Cleanup();

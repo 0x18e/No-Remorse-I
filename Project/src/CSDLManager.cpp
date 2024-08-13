@@ -27,8 +27,14 @@ bool CSDLManager::InitSDL(){
 		else {
 			LOG("SDL_Image initialized");
 		}
-		
 
+		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+			LOG("Could not initialize SDL_mixer: " << Mix_GetError());
+			return false;
+		}
+		else {
+			LOG("SDL_mixer.h initialized");
+		}
 	}
 
 	return bFlag;
@@ -36,11 +42,13 @@ bool CSDLManager::InitSDL(){
 }
 
 void CSDLManager::Quit(){
-	LOG("Quitting SDL_Image");
+	
+	Mix_Quit();
+	LOG("SDL_Mixer Quit");
 	IMG_Quit();
-	LOG("Quitting SDL");
+	LOG("SDL_IMG Quit");
 	SDL_Quit();
-	LOG("SDL quit");
+	LOG("SDL Quit");
 }
 
 CSDLManager::~CSDLManager(){

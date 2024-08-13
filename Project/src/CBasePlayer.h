@@ -3,6 +3,7 @@
 #include "Utilities.h"
 #include "CEntity.h"
 #include "CWeapon.h"
+#include "CSoundManager.h"
 #include <map>
 
 class CBasePlayer : public CEntity {

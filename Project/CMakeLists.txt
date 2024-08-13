@@ -29,7 +29,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(SDL2)
 
 # Fetch SDL2_image
-set(SDL2IMAGE_INSTALL OFF CACHE BOOL "" FORCE)  # Disable the installation step
+#set(SDL2IMAGE_INSTALL OFF CACHE BOOL "" FORCE)  # Disable the installation step
 FetchContent_Declare(
   SDL2_image
   GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git
@@ -38,8 +38,15 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(SDL2_image)
 
+FetchContent_Declare(
+    SDL2_mixer
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer.git
+    GIT_TAG release-2.8.0
+)
+FetchContent_MakeAvailable(SDL2_mixer)
+
 # Link SDL2 and SDL2_image with your project
-target_link_libraries(NoRemorse PRIVATE SDL2::SDL2 SDL2::SDL2main SDL2_image::SDL2_image)
+target_link_libraries(NoRemorse PRIVATE SDL2::SDL2 SDL2::SDL2main SDL2_image::SDL2_image SDL2_mixer::SDL2_mixer)
 
 
 
@@ -47,4 +54,8 @@ target_link_libraries(NoRemorse PRIVATE SDL2::SDL2 SDL2::SDL2main SDL2_image::SD
 add_custom_command(TARGET NoRemorse POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${PROJECT_SOURCE_DIR}/sprites" "$<TARGET_FILE_DIR:NoRemorse>/sprites"
+)
+add_custom_command(TARGET NoRemorse POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${PROJECT_SOURCE_DIR}/sound" "$<TARGET_FILE_DIR:NoRemorse>/sound"
 )
