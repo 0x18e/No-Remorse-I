@@ -15,22 +15,28 @@ bool CEngine::Initialize(){
 	bool RendererCheck = m_Renderer.Initialize(m_Window.GetWindow());
 	bool AudioCheck = CSoundManager::Get().Init();
 	m_GameLogic.Init(m_Renderer.GetRenderer(), m_nWindowWidth, m_nWindowHeight);
+
+	SDL_GetDisplayMode(0, 0, &m_Display);
+	m_nScreenFPS = m_Display.refresh_rate;
+	m_nScreenTicksPerFrame = 1000 / m_nScreenFPS;
+
 	
 	return SDLCheck && WindowCheck && RendererCheck && AudioCheck;
 }
 
 void CEngine::Run() {
 	
+
 	SDL_Event event;
 	m_MainClock.Start();
-	// temp code
-	Clock fps_timer;
-	fps_timer.Start();
-	int counted_frames = 0;
-	float avgFps = 0;
+	m_FPSTimer.Start();
+
+	int CountedFrames = 0;
+	float AvgFPS = 0;
 	// Main game loop
 	while (b_isRunning) {
-
+	
+		m_CapTimer.Start();
 		m_fDeltaTime = m_MainClock.GetTicks() / 1000.f; // Time in seconds
 		
 
@@ -44,7 +50,7 @@ void CEngine::Run() {
 			
 			case SDL_KEYDOWN:
 				if (event.key.keysym.sym == SDLK_f) {
-					std::cout << avgFps << "\n";
+					std::cout << AvgFPS << "\n";
 				}
 				break;
 			
@@ -62,10 +68,10 @@ void CEngine::Run() {
 			m_GameLogic.InputHandler(event);
 		}
 		// temp code
-		avgFps = counted_frames / (fps_timer.GetTicks() / 1000.f);
-		if (avgFps > 2000000)
+		AvgFPS = CountedFrames / (m_FPSTimer.GetTicks() / 1000.f);
+		if (AvgFPS > 2000000)
 		{
-			avgFps = 0;
+			AvgFPS = 0;
 		}
 
 
@@ -78,7 +84,12 @@ void CEngine::Run() {
 		m_GameLogic.Render();
 		
 		// temp
-		++counted_frames;
+		++CountedFrames;
+
+		int FrameTicks = m_CapTimer.GetTicks();
+		if (FrameTicks < m_nScreenTicksPerFrame) {
+			SDL_Delay(m_nScreenTicksPerFrame - FrameTicks);
+		}
 	}
 }
 

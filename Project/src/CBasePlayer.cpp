@@ -27,13 +27,14 @@ void CBasePlayer::SetPosition(Vector2 offset, int windowx, int windowy) {
 */
 
 void CBasePlayer::WeaponUpdate(int windowx, int windowy, const float& dt) {
-	
 	m_Gun.UpdateBullets(windowx, windowy, dt);
 }
 void CBasePlayer::WeaponRenderer(SDL_Renderer* renderer, int windowx, int windowy) {
 
 	m_Gun.RenderBullets(renderer);
 }
+
+
 void CBasePlayer::InputHandler(const SDL_Event& event, SDL_Renderer* renderer) {
 	switch (event.type) {
 	case SDL_MOUSEMOTION:

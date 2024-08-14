@@ -16,7 +16,7 @@ bool CSoundManager::Init() {
 	m_pSounds["shoot"] = m_pShoot;
 
 	m_pEnemyHit = Mix_LoadWAV("sound/hitsoundenemy.wav");
-
+	m_pEnemyHit->volume = 30;
 	if (m_pEnemyHit == nullptr) {
 		LOG("Failed to load hitsoundenemy audio effect " << Mix_GetError());
 		flag = false;
@@ -24,11 +24,13 @@ bool CSoundManager::Init() {
 	m_pSounds["enemy_hit"] = m_pEnemyHit;
 
 	m_pEnemyDie = Mix_LoadWAV("sound/enemydeathsound.wav");
+
 	if (m_pEnemyDie == nullptr) {
 		LOG("Failed to load enemydeathsound.wav " << Mix_GetError());
 		flag = false;
 	}
 	m_pSounds["enemy_death"] = m_pEnemyDie;
+	
 
 	return flag;
 }

@@ -20,7 +20,12 @@ void CLogic::Init(SDL_Renderer* renderer, int WindowWidth, int WindowHeight) {
 	// Create initial enemies
 	CZombie* zombie = new CZombie;
 	zombie->InitializeZombie(m_pRenderer, Vector2(m_nWindowWidth / 4, m_nWindowHeight / 4));
-	
+	for (int i = 0; i < 5; ++i) {
+		CZombie* z = new CZombie;
+		z->InitializeZombie(m_pRenderer, Vector2(GetRandomNumber(0, m_nWindowWidth), GetRandomNumber(0, m_nWindowHeight)));
+		m_pEnemies.push_back(z);
+		m_pEntities.push_back(z);
+	}
 	m_pEntities.push_back(zombie);
 	m_pEnemies.push_back(zombie);
 	
@@ -28,7 +33,6 @@ void CLogic::Init(SDL_Renderer* renderer, int WindowWidth, int WindowHeight) {
 }
 
 void CLogic::SetRenderer( SDL_Renderer* renderer) {
-
 	m_pRenderer = renderer;
 }
 

@@ -33,7 +33,7 @@ public:
 
 	void WeaponUpdate(int windowx, int windowy, const float& dt);
 	void WeaponRenderer(SDL_Renderer* renderer, int windowx, int windowy);
-	std::vector<CBullet*> GetWeaponBullets() { return m_Gun.GetBullets(); }
+	const std::vector<CBullet*> GetWeaponBullets() { return m_Gun.GetBullets(); }
 
 	void InputHandler(const SDL_Event& key, SDL_Renderer* renderer);
 	void Move(float dt, Vector2 camera);

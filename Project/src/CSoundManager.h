@@ -16,7 +16,7 @@ public:
 	std::map<std::string, Mix_Chunk*> m_pSounds;
 
 	bool Init();
-	void PlaySound(std::string sound); // empty 4 now
+	void PlaySound(std::string sound);
 private:
 	CSoundManager() : m_pShoot(nullptr), m_pEnemyDie(nullptr), m_pEnemyHit(nullptr) {}
 	~CSoundManager();
