@@ -4,6 +4,7 @@ void CBullet::Init(SDL_Renderer* renderer, const char* texture_path, double angl
 	m_EntityTexture.LoadTexture(renderer, texture_path, "m_bullet");
 	m_EntityTexture.SetCurrentTexture("m_bullet");
 	m_EntityTexture.SetScale(6);
+	m_fImpactForce = 10;
 	m_Position = initial_pos;
 	m_dAngle = angle;
 }
@@ -12,8 +13,19 @@ void CBullet::SetBulletVelocity(Vector2 vector) {
 	m_Velocity = vector * m_BulletSpeed;
 }
 
-void CBullet::SetBulletSpeed(float bullet_speed) {
+void  CBullet::SetImpactForce(float force) {
+	this->m_fImpactForce = force;
+	
+}
+
+void CBullet::SetSpeed(float bullet_speed) {
 	this->m_BulletSpeed = bullet_speed;
+}
+
+
+
+void CBullet::SetDamage(float bullet_damage) {
+	m_fBulletDamage = bullet_damage;
 }
 
 void CBullet::UpdatePosition(float dt) {

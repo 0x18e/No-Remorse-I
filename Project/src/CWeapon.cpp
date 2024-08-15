@@ -2,7 +2,7 @@
 
 void CWeapon::Shoot(SDL_Renderer* renderer, double player_angle, Vector2 player_position) {
 	CBullet* bullet = new CBullet;
-	
+	// make shooting both fire rate and spam, make spam rewarding :D
 	bullet->Init(renderer, "sprites/small_gun_bullet.png", player_angle, player_position);
 
 	
@@ -10,7 +10,7 @@ void CWeapon::Shoot(SDL_Renderer* renderer, double player_angle, Vector2 player_
 	mouse_position += Vector2(GetRandomNumber(-20, 20), GetRandomNumber(-20, 20)); // add inacuraccy
 	
 	Vector2 direction_vector = UnitVector(mouse_position - player_position);
-	bullet->SetBulletSpeed(m_fWeaponSpeed);
+	bullet->SetSpeed(m_fWeaponSpeed);
 	bullet->SetBulletVelocity(direction_vector);
 	
 	m_Bullets.push_back(bullet);

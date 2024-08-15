@@ -15,7 +15,7 @@ private:
 	Vector2 GetMousePosition();
 	int m_MouseX = 0;
 	int m_MouseY = 0;
-	float m_fWeaponSpeed = 1000.0f;
+	float m_fWeaponSpeed = 750.0f;
 public:
 
 	std::vector<CBullet*> GetBullets() { return m_Bullets; }
@@ -27,7 +27,13 @@ public:
 };
 
 
+class CPistol : public CWeapon {
 
+};
+
+class CShotgun : public CWeapon {
+
+};
 
 
 

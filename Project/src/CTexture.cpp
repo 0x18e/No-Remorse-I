@@ -3,7 +3,6 @@
 
 
 bool CTextureHandler::LoadTexture(SDL_Renderer* renderer, const char* path, std::string id) {
-	
 	SDL_Texture* tmp_texture = IMG_LoadTexture(renderer, path);
 	if (tmp_texture == nullptr) {
 		LOG("SDL could not create texture from IMG: " << IMG_GetError());

@@ -21,7 +21,7 @@ void CLogic::Init(SDL_Renderer* renderer, int WindowWidth, int WindowHeight) {
 	CZombie* zombie = new CZombie;
 	zombie->InitializeZombie(m_pRenderer, Vector2(m_nWindowWidth / 4, m_nWindowHeight / 4));
 	for (int i = 0; i < 5; ++i) {
-		CZombie* z = new CZombie;
+		CMediumZombie* z = new CMediumZombie;
 		z->InitializeZombie(m_pRenderer, Vector2(GetRandomNumber(0, m_nWindowWidth), GetRandomNumber(0, m_nWindowHeight)));
 		m_pEnemies.push_back(z);
 		m_pEntities.push_back(z);
@@ -63,9 +63,9 @@ void CLogic::Update(float dt) {
 				if (enemy->IsAlive() != false) {
 					if (bullet->IsCollided(*enemy)) {
 						LOG("Hit");
-						enemy->TakeDamage(50); // arbitrary random number i chose, this will be replaced with bullet damage
-						enemy->KnockBack(Vector2(10, 10)); // Arbitrary random numbers for impact force
-						CSoundManager::Get().PlaySound("enemy_hit");
+						enemy->TakeDamage(bullet->GetDamage()); // arbitrary random number i chose, this will be replaced with bullet damage
+						enemy->KnockBack(Vector2(bullet->GetImpactForce(), bullet->GetImpactForce())); // Arbitrary random numbers for impact force
+						//CSoundManager::Get().PlaySound("enemy_hit");
 						bullet->SetKillFlag(true);
 					}
 				}
@@ -98,7 +98,7 @@ void CLogic::Render(){
 
 
 void CLogic::AdjustResolution(int x, int y) {
-	//m_Player.SetPosition(Vector2(x, y), m_nWindowWidth, m_nWindowHeight);
+	
 	for (size_t it = 0; it < m_pEntities.size(); ++it) {
 		m_pEntities[it]->AdjustForResolution(Vector2(x, y), Vector2(m_nWindowWidth, m_nWindowHeight));
 	}
@@ -107,11 +107,7 @@ void CLogic::AdjustResolution(int x, int y) {
 }
 // Main games input handler
 void CLogic::InputHandler(const SDL_Event& key) {
-
-
-
 	// Pass input wherever it is required
-
 	m_Player.InputHandler(key, m_pRenderer);
 }
 
@@ -124,13 +120,10 @@ void CLogic::Cleanup()
 	// Set m_pRenderer to nullptr to avoid dangling pointers
 	m_Player.Destroy();
 	for (size_t it = 0; it < m_pEntities.size(); ++it) {
-
 		delete m_pEntities[it];
 		m_pEntities[it] = nullptr;
 	}
 	for (size_t it = 0; it < m_pEnemies.size(); ++it) {
-
-	
 		m_pEnemies[it] = nullptr;
 	}
 	m_pEntities.clear();

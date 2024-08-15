@@ -30,7 +30,6 @@ void CBasePlayer::WeaponUpdate(int windowx, int windowy, const float& dt) {
 	m_Gun.UpdateBullets(windowx, windowy, dt);
 }
 void CBasePlayer::WeaponRenderer(SDL_Renderer* renderer, int windowx, int windowy) {
-
 	m_Gun.RenderBullets(renderer);
 }
 
@@ -46,7 +45,7 @@ void CBasePlayer::InputHandler(const SDL_Event& event, SDL_Renderer* renderer) {
 		//m_bIsShooting = true; 
 		
 		m_Gun.Shoot(renderer, m_dAngle, m_Position);
-		CSoundManager::Get().PlaySound("shoot");
+		//CSoundManager::Get().PlaySound("shoot");
 		HandleRotation();
 		
 		break;
