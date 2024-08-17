@@ -12,8 +12,13 @@ void CLogic::Init(SDL_Renderer* renderer, int WindowWidth, int WindowHeight) {
 	SetRenderer(renderer);
 	m_nWindowWidth = WindowWidth;
 	m_nWindowHeight = WindowHeight;
+	m_FlashLightTexture = IMG_LoadTexture(m_pRenderer,"sprites/light.png");
+	m_SceneTexture = IMG_LoadTexture(m_pRenderer, "sprites/black_background.png");
 
-	
+	//SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+	SDL_SetTextureBlendMode(m_FlashLightTexture, SDL_BLENDMODE_ADD);
+
+
 	// Explicit conversion to avoid compiler warnings barking at me
 	m_Player.Init(m_pRenderer, "sprites/girl_right.png", Vector2((float)(m_nWindowWidth / 2), (float)(m_nWindowHeight / 2)));
 	
@@ -29,7 +34,6 @@ void CLogic::Init(SDL_Renderer* renderer, int WindowWidth, int WindowHeight) {
 	m_pEntities.push_back(zombie);
 	m_pEnemies.push_back(zombie);
 	
-	//m_pEntities.push_back(&m_Player); // Add player to the main entities list
 }
 
 void CLogic::SetRenderer( SDL_Renderer* renderer) {
@@ -79,18 +83,37 @@ void CLogic::Update(float dt) {
 
 void CLogic::Render(){
 
-	// Clear the background with all white
-	SDL_SetRenderDrawColor(m_pRenderer, 0xff, 0xff, 0xff, 0xff);
+
+	SDL_SetRenderTarget(m_pRenderer, m_SceneTexture);
+	SDL_SetRenderDrawColor(m_pRenderer, 0x00, 0x00, 0x00, 0x100);
 	SDL_RenderClear(m_pRenderer);
+	SDL_Rect r{ m_Player.GetPosition().x- 100, m_Player.GetPosition().y - 100, 500, 500 };
+	//SDL_SetTextureBlendMode(m_FlashLightTexture, SDL_BLENDMODE_BLEND);
+	SDL_SetTextureBlendMode(m_FlashLightTexture, SDL_BLENDMODE_ADD);
+	SDL_RenderCopy(m_pRenderer, m_FlashLightTexture, NULL, &r);
+	//SDL_RenderCopy(m_pRenderer, m_SceneTexture, nullptr, nullptr);
 
-	// Rendering entities
-	
+
 	m_Player.WeaponRenderer(m_pRenderer, m_nWindowWidth, m_nWindowHeight);
-	m_Player.Render(m_pRenderer);
-
+	
+	//SDL_SetRenderTarget(m_pRenderer, NULL);
+	
 	for (size_t i = 0; i < m_pEntities.size(); ++i) {
 		m_pEntities[i]->Render(m_pRenderer);
 	}
+	m_Player.Render(m_pRenderer);
+
+
+	SDL_SetTextureBlendMode(m_SceneTexture, SDL_BLENDMODE_MOD);
+
+	
+	SDL_RenderCopy(m_pRenderer, m_SceneTexture, nullptr, nullptr);
+
+
+	
+	// Rendering entities
+	
+	//SDL_SetTextureBlendMode(m_FlashLightTexture, SDL_BLENDMODE_MOD);
 	
 	// Presenting entities
 	SDL_RenderPresent(m_pRenderer);
@@ -105,6 +128,7 @@ void CLogic::AdjustResolution(int x, int y) {
 	m_nWindowWidth = x;
 	m_nWindowHeight = y;
 }
+
 // Main games input handler
 void CLogic::InputHandler(const SDL_Event& key) {
 	// Pass input wherever it is required
@@ -126,6 +150,8 @@ void CLogic::Cleanup()
 	for (size_t it = 0; it < m_pEnemies.size(); ++it) {
 		m_pEnemies[it] = nullptr;
 	}
+	SDL_DestroyTexture(m_FlashLightTexture);
+	m_FlashLightTexture = nullptr;
 	m_pEntities.clear();
 	m_pRenderer = nullptr;
 }

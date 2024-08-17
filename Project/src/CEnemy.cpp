@@ -1,12 +1,22 @@
 #include "CEnemy.h"
 
 
-void CEnemy::Init(SDL_Renderer* renderer, std::vector<const char*> anim_paths, Vector2 initial_position, std::string id) {
+void CEnemy::Init(SDL_Renderer* renderer, Vector2 initial_position) {
 	this->m_Position = initial_position;
-	for (size_t i = 0; i < anim_paths.size(); ++i) {
-		m_EntityTexture.LoadTexture(renderer, anim_paths[i], id);
-	}
 	m_EntityTexture.SetScale(2);
+	/*
+	for (size_t i = 0; i < m_AnimPaths.size(); ++i) {
+		m_EntityTexture.LoadTexture(renderer, anim_paths[i], ids[i]);
+	}
+	*/
+	// Setup initial animations
+	for (auto value : m_AnimPaths) {
+		if (value.first == "enemy_dead") {
+			path_to_death_sprite = value.second;
+		}
+		m_EntityTexture.LoadTexture(renderer, value.second, value.first);
+	}
+
 	m_Velocity.x = m_fEnemySpeed;
 	m_Velocity.y = m_fEnemySpeed;
 }

@@ -12,6 +12,9 @@ private:
 	SDL_Renderer* m_pRenderer;
 	CBasePlayer m_Player;
 	Vector2 m_Camera;
+	SDL_Texture* m_FlashLightTexture;
+	SDL_Texture* m_SceneTexture;
+	SDL_Rect lightPos;
 	
 
 	// Create a vector that will store all the entities

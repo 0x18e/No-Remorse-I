@@ -8,9 +8,10 @@ private:
 	int m_nHealth = 150;
 	float m_fEnemySpeed = 600;
 	bool m_bIsAlive = true;
-	const char* path_to_death_sprite; // Ensure that every enemy that is created has a death sprite
+	std::string path_to_death_sprite; // Ensure that every enemy that is created has a death sprite
 protected:
-	void Init(SDL_Renderer* renderer, std::vector<const char*> anim_paths, Vector2 initial_position, std::string id);
+	void Init(SDL_Renderer* renderer, Vector2 initial_position);
+	std::map<const char*, const char*> m_AnimPaths;
 public:
 	void ChasePlayer(Vector2 player_position);
 	bool IsAlive() { return m_bIsAlive; }

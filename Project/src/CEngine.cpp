@@ -38,7 +38,7 @@ void CEngine::Run() {
 	
 		m_CapTimer.Start();
 		m_fDeltaTime = m_MainClock.GetTicks() / 1000.f; // Time in seconds
-		
+
 
 		while (SDL_PollEvent(&event) != 0) {
 			switch (event.type) {
@@ -51,6 +51,7 @@ void CEngine::Run() {
 			case SDL_KEYDOWN:
 				if (event.key.keysym.sym == SDLK_f) {
 					std::cout << AvgFPS << "\n";
+					LOG(m_nScreenFPS);
 				}
 				break;
 			

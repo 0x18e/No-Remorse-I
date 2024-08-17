@@ -7,9 +7,9 @@ CBasePlayer::CBasePlayer() {
 void CBasePlayer::Init(SDL_Renderer* renderer, const char* path_to_texture, Vector2 initial_position) {
 
 	m_Position = initial_position;
-	m_EntityTexture.LoadTexture(renderer, "sprites/girl_right.png", "girl_idle");
-	m_EntityTexture.LoadTexture(renderer, "sprites/girl_idea.png", "girl_shoot");
-	m_EntityTexture.SetScale(3);
+	m_EntityTexture.LoadTexture(renderer, "sprites/girl_idle.png", "girl_idle");
+	m_EntityTexture.LoadTexture(renderer, "sprites/girl_shoot.png", "girl_shoot");
+	m_EntityTexture.SetScale(2);
 
 	m_EntityTexture.SetCurrentTexture("girl_idle");
 }
