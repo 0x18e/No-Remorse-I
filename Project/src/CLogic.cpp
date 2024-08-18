@@ -13,7 +13,16 @@ void CLogic::Init(SDL_Renderer* renderer, int WindowWidth, int WindowHeight) {
 	m_nWindowWidth = WindowWidth;
 	m_nWindowHeight = WindowHeight;
 	m_FlashLightTexture = IMG_LoadTexture(m_pRenderer,"sprites/light.png");
-	m_SceneTexture = IMG_LoadTexture(m_pRenderer, "sprites/black_background.png");
+	m_SceneTexture = IMG_LoadTexture(m_pRenderer, "sprites/white_bg.png");
+	/*
+	verts =
+	{
+		{ SDL_FPoint{ 400, 150 }, SDL_Color{ 255, 255, 255, 255 }, SDL_FPoint{ 0 }, },
+		{ SDL_FPoint{ 200, 450 }, SDL_Color{ 255, 255, 255, 255 }, SDL_FPoint{ 0 }, },
+		{ SDL_FPoint{ 600, 450 }, SDL_Color{ 255, 255, 255, 255 }, SDL_FPoint{ 0 }, },
+	};
+	*/
+	
 
 	//SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 	SDL_SetTextureBlendMode(m_FlashLightTexture, SDL_BLENDMODE_ADD);
@@ -76,21 +85,19 @@ void CLogic::Update(float dt) {
 			}
 		}
 	}
-	
-
-
 }
 
 void CLogic::Render(){
 
 
-	SDL_SetRenderTarget(m_pRenderer, m_SceneTexture);
-	SDL_SetRenderDrawColor(m_pRenderer, 0x00, 0x00, 0x00, 0x100);
+	SDL_SetRenderDrawColor(m_pRenderer, 0x00, 0x00, 0x00, 0x255);
 	SDL_RenderClear(m_pRenderer);
-	SDL_Rect r{ m_Player.GetPosition().x- 100, m_Player.GetPosition().y - 100, 500, 500 };
+	//SDL_Rect r{ m_Player.GetPosition().x- 100, m_Player.GetPosition().y - 100, 1000, 1000 };
 	//SDL_SetTextureBlendMode(m_FlashLightTexture, SDL_BLENDMODE_BLEND);
-	SDL_SetTextureBlendMode(m_FlashLightTexture, SDL_BLENDMODE_ADD);
-	SDL_RenderCopy(m_pRenderer, m_FlashLightTexture, NULL, &r);
+	//SDL_SetTextureBlendMode(m_FlashLightTexture, SDL_BLENDMODE_ADD);
+	//SDL_RenderCopy(m_pRenderer, m_FlashLightTexture, NULL, &r);
+	//SDL_RenderGeometry(m_pRenderer, nullptr, verts.data(), verts.size(), nullptr, 0);
+	//SDL_RenderPresent(renderer);
 	//SDL_RenderCopy(m_pRenderer, m_SceneTexture, nullptr, nullptr);
 
 
@@ -101,15 +108,14 @@ void CLogic::Render(){
 	for (size_t i = 0; i < m_pEntities.size(); ++i) {
 		m_pEntities[i]->Render(m_pRenderer);
 	}
-	m_Player.Render(m_pRenderer);
 
+	//SDL_SetTextureBlendMode(m_SceneTexture, SDL_BLENDMODE_MOD);
+	//SDL_RenderCopy(m_pRenderer, m_SceneTexture, nullptr, nullptr);
 
-	SDL_SetTextureBlendMode(m_SceneTexture, SDL_BLENDMODE_MOD);
-
+	//SDL_SetRenderTarget(m_pRenderer, nullptr);
 	
-	SDL_RenderCopy(m_pRenderer, m_SceneTexture, nullptr, nullptr);
-
-
+	
+	m_Player.Render(m_pRenderer);
 	
 	// Rendering entities
 	

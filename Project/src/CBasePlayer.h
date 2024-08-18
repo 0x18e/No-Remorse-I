@@ -4,7 +4,9 @@
 #include "CEntity.h"
 #include "CWeapon.h"
 #include "CSoundManager.h"
+#include "CFlashlight.h"
 #include <map>
+
 
 class CBasePlayer : public CEntity {
 private:
@@ -13,6 +15,7 @@ private:
 	int m_nMousePositionY = 0;
 	bool m_bIsShooting = false;
 	CWeapon m_Gun;
+	Flashlight m_Flashlight;
 	
 
 	struct DIRECTIONS {

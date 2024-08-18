@@ -10,7 +10,7 @@ void CBasePlayer::Init(SDL_Renderer* renderer, const char* path_to_texture, Vect
 	m_EntityTexture.LoadTexture(renderer, "sprites/girl_idle.png", "girl_idle");
 	m_EntityTexture.LoadTexture(renderer, "sprites/girl_shoot.png", "girl_shoot");
 	m_EntityTexture.SetScale(2);
-
+	m_Flashlight.Init(initial_position);
 	m_EntityTexture.SetCurrentTexture("girl_idle");
 }
 
@@ -31,6 +31,7 @@ void CBasePlayer::WeaponUpdate(int windowx, int windowy, const float& dt) {
 }
 void CBasePlayer::WeaponRenderer(SDL_Renderer* renderer, int windowx, int windowy) {
 	m_Gun.RenderBullets(renderer);
+	m_Flashlight.RenderFlashlight(renderer, this->m_Position, this->m_dAngle);
 }
 
 

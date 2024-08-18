@@ -15,6 +15,7 @@ private:
 	SDL_Texture* m_FlashLightTexture;
 	SDL_Texture* m_SceneTexture;
 	SDL_Rect lightPos;
+	std::vector< SDL_Vertex > verts;
 	
 
 	// Create a vector that will store all the entities
