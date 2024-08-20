@@ -53,3 +53,14 @@ bool CEntity::IsCollided(CEntity &collider)
         this_reducedPosition.y + reducedDimensions.y > collider_reducedPosition.y);
 
 }
+
+void CEntity::SetScale(int scale){
+    this->m_nScale = scale;
+    m_EntityTexture.SetScale(m_nScale);
+}
+
+float CEntity::GetScale() {
+    return m_nScale;
+}
+
+

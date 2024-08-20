@@ -12,21 +12,9 @@ void CLogic::Init(SDL_Renderer* renderer, int WindowWidth, int WindowHeight) {
 	SetRenderer(renderer);
 	m_nWindowWidth = WindowWidth;
 	m_nWindowHeight = WindowHeight;
-	m_FlashLightTexture = IMG_LoadTexture(m_pRenderer,"sprites/light.png");
-	m_SceneTexture = IMG_LoadTexture(m_pRenderer, "sprites/white_bg.png");
-	/*
-	verts =
-	{
-		{ SDL_FPoint{ 400, 150 }, SDL_Color{ 255, 255, 255, 255 }, SDL_FPoint{ 0 }, },
-		{ SDL_FPoint{ 200, 450 }, SDL_Color{ 255, 255, 255, 255 }, SDL_FPoint{ 0 }, },
-		{ SDL_FPoint{ 600, 450 }, SDL_Color{ 255, 255, 255, 255 }, SDL_FPoint{ 0 }, },
-	};
-	*/
 	
 
-	//SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-	SDL_SetTextureBlendMode(m_FlashLightTexture, SDL_BLENDMODE_ADD);
-
+	
 
 	// Explicit conversion to avoid compiler warnings barking at me
 	m_Player.Init(m_pRenderer, "sprites/girl_right.png", Vector2((float)(m_nWindowWidth / 2), (float)(m_nWindowHeight / 2)));
@@ -58,6 +46,7 @@ void CLogic::Update(float dt) {
 
 	for (size_t it = 0; it < m_pEnemies.size(); ++it) {
 		
+	
 		if (m_pEnemies[it]->IsAlive()) {
 			m_pEnemies[it]->ChasePlayer(m_Player.GetPosition());
 			m_pEnemies[it]->Update(dt);
@@ -65,7 +54,11 @@ void CLogic::Update(float dt) {
 		else {
 			// LAZY CODE FIX LATER
 			m_pEnemies[it]->Die();
-			
+		}
+	}
+	for (CEnemy* enemy : m_pEnemies) {
+		if (enemy->IsCollided(m_Player.GetFlashlight())) {
+			enemy->SetVisibility(true);
 		}
 	}
 	
@@ -79,6 +72,7 @@ void CLogic::Update(float dt) {
 						enemy->TakeDamage(bullet->GetDamage()); // arbitrary random number i chose, this will be replaced with bullet damage
 						enemy->KnockBack(Vector2(bullet->GetImpactForce(), bullet->GetImpactForce())); // Arbitrary random numbers for impact force
 						//CSoundManager::Get().PlaySound("enemy_hit");
+						enemy->SetVisibility(true);
 						bullet->SetKillFlag(true);
 					}
 				}
@@ -90,38 +84,20 @@ void CLogic::Update(float dt) {
 void CLogic::Render(){
 
 
-	SDL_SetRenderDrawColor(m_pRenderer, 0x00, 0x00, 0x00, 0x255);
+	SDL_SetRenderDrawColor(m_pRenderer, 0x00, 0x00, 0x00, 0xff);
 	SDL_RenderClear(m_pRenderer);
-	//SDL_Rect r{ m_Player.GetPosition().x- 100, m_Player.GetPosition().y - 100, 1000, 1000 };
-	//SDL_SetTextureBlendMode(m_FlashLightTexture, SDL_BLENDMODE_BLEND);
-	//SDL_SetTextureBlendMode(m_FlashLightTexture, SDL_BLENDMODE_ADD);
-	//SDL_RenderCopy(m_pRenderer, m_FlashLightTexture, NULL, &r);
-	//SDL_RenderGeometry(m_pRenderer, nullptr, verts.data(), verts.size(), nullptr, 0);
-	//SDL_RenderPresent(renderer);
-	//SDL_RenderCopy(m_pRenderer, m_SceneTexture, nullptr, nullptr);
-
-
+	
 	m_Player.WeaponRenderer(m_pRenderer, m_nWindowWidth, m_nWindowHeight);
-	
-	//SDL_SetRenderTarget(m_pRenderer, NULL);
-	
-	for (size_t i = 0; i < m_pEntities.size(); ++i) {
-		m_pEntities[i]->Render(m_pRenderer);
+	for (size_t i = 0; i < m_pEnemies.size(); ++i) {
+		if (m_pEnemies[i]->GetVisibility()) {
+			//m_pEntities[i]->Render(m_pRenderer);
+			m_pEnemies[i]->Render(m_pRenderer);
+		}
 	}
-
-	//SDL_SetTextureBlendMode(m_SceneTexture, SDL_BLENDMODE_MOD);
-	//SDL_RenderCopy(m_pRenderer, m_SceneTexture, nullptr, nullptr);
-
-	//SDL_SetRenderTarget(m_pRenderer, nullptr);
-	
-	
 	m_Player.Render(m_pRenderer);
+
+
 	
-	// Rendering entities
-	
-	//SDL_SetTextureBlendMode(m_FlashLightTexture, SDL_BLENDMODE_MOD);
-	
-	// Presenting entities
 	SDL_RenderPresent(m_pRenderer);
 }
 
@@ -156,8 +132,6 @@ void CLogic::Cleanup()
 	for (size_t it = 0; it < m_pEnemies.size(); ++it) {
 		m_pEnemies[it] = nullptr;
 	}
-	SDL_DestroyTexture(m_FlashLightTexture);
-	m_FlashLightTexture = nullptr;
 	m_pEntities.clear();
 	m_pRenderer = nullptr;
 }

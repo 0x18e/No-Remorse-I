@@ -14,8 +14,10 @@ private:
 	int m_nMousePositionX = 0;
 	int m_nMousePositionY = 0;
 	bool m_bIsShooting = false;
-	CWeapon m_Gun;
-	Flashlight m_Flashlight;
+	//CWeapon m_Gun;
+	CPistol m_Gun;
+	CShotgun m_Shotgun;
+	CFlashlight m_Flashlight;
 	
 
 	struct DIRECTIONS {
@@ -36,6 +38,7 @@ public:
 
 	void WeaponUpdate(int windowx, int windowy, const float& dt);
 	void WeaponRenderer(SDL_Renderer* renderer, int windowx, int windowy);
+	CEntity& GetFlashlight() { return m_Flashlight.GetCollider(); }
 	const std::vector<CBullet*> GetWeaponBullets() { return m_Gun.GetBullets(); }
 
 	void InputHandler(const SDL_Event& key, SDL_Renderer* renderer);

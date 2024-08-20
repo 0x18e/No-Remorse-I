@@ -12,11 +12,7 @@ private:
 	SDL_Renderer* m_pRenderer;
 	CBasePlayer m_Player;
 	Vector2 m_Camera;
-	SDL_Texture* m_FlashLightTexture;
-	SDL_Texture* m_SceneTexture;
-	SDL_Rect lightPos;
-	std::vector< SDL_Vertex > verts;
-	
+
 
 	// Create a vector that will store all the entities
 	std::vector<CEntity*> m_pEntities;

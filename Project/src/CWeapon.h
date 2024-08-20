@@ -10,17 +10,19 @@
 // Will do for now.
 class CWeapon {
 
-private:
+protected:
 	std::vector<CBullet*> m_Bullets;
 	Vector2 GetMousePosition();
 	int m_MouseX = 0;
 	int m_MouseY = 0;
 	float m_fWeaponSpeed = 750.0f;
-public:
+	float m_fWeaponAccuracy = 10;
 
-	std::vector<CBullet*> GetBullets() { return m_Bullets; }
-	void Shoot(SDL_Renderer* renderer, double player_angle, Vector2 player_position);
+public:
+		std::vector<CBullet*> GetBullets() { return m_Bullets; }
+	virtual void Shoot(SDL_Renderer* renderer, double player_angle, Vector2 player_position);
 	void SetWeaponSpeed(float speed);
+	void SetAccuracy(float accuracy);
 	void Cleanup();
 	void UpdateBullets(int windowx, int windowy, const float& dt);
 	void RenderBullets(SDL_Renderer* renderer);
@@ -29,10 +31,17 @@ public:
 
 class CPistol : public CWeapon {
 
+public:
+	// Override shooting for a pistol
+	void Shoot(SDL_Renderer* renderer, double player_angle, Vector2 player_position) override;
+
 };
 
 class CShotgun : public CWeapon {
-
+private:
+	int m_nPelletCount = 5;
+public:
+	void Shoot(SDL_Renderer* renderer, double player_angle, Vector2 player_position) override;
 };
 
 

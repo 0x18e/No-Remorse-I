@@ -7,31 +7,22 @@ CBasePlayer::CBasePlayer() {
 void CBasePlayer::Init(SDL_Renderer* renderer, const char* path_to_texture, Vector2 initial_position) {
 
 	m_Position = initial_position;
-	m_EntityTexture.LoadTexture(renderer, "sprites/girl_idle.png", "girl_idle");
 	m_EntityTexture.LoadTexture(renderer, "sprites/girl_shoot.png", "girl_shoot");
-	m_EntityTexture.SetScale(2);
-	m_Flashlight.Init(initial_position);
+	// In secret, this line is a super hacky fix....
+	m_EntityTexture.LoadTexture(renderer, "sprites/girl_idle.png", "girl_idle");
+	this->SetScale(2);
+	m_Flashlight.Init(renderer, initial_position, this->GetDimensions(), this->GetScale());
 	m_EntityTexture.SetCurrentTexture("girl_idle");
 }
 
-/*
-void CBasePlayer::SetPosition(Vector2 offset, int windowx, int windowy) {
-
-
-	float calcx = (offset.x * m_Position.x) / windowx;
-	float calcy = (offset.y * m_Position.y) / windowy;
-
-	this->m_Position.x = calcx;
-	this->m_Position.y = calcy;
-}
-*/
 
 void CBasePlayer::WeaponUpdate(int windowx, int windowy, const float& dt) {
 	m_Gun.UpdateBullets(windowx, windowy, dt);
 }
+
 void CBasePlayer::WeaponRenderer(SDL_Renderer* renderer, int windowx, int windowy) {
+	m_Flashlight.RenderFlashlight(renderer, this->GetPosition(), this->GetDimensions(), m_dAngle);
 	m_Gun.RenderBullets(renderer);
-	m_Flashlight.RenderFlashlight(renderer, this->m_Position, this->m_dAngle);
 }
 
 

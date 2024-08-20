@@ -10,7 +10,7 @@ protected:
 	Vector2 m_CollisionBox; // maybe remove
 	std::string id;
 	double m_dAngle;
-	int m_nScale;
+	float m_nScale;
 public:
 	CEntity() : m_Position(0, 0), m_Velocity(0, 0), m_nScale(1), m_dAngle(0.0) {} ;
 	~CEntity();
@@ -19,6 +19,8 @@ public:
 	void AdjustForResolution(Vector2 newres, Vector2 oldres);
 	
 	bool IsCollided(CEntity &collider);
+	void SetScale(int scale);
+	float GetScale();
 	
 	
 	// Define in .cpp later

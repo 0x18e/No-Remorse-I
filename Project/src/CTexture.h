@@ -13,6 +13,8 @@ private:
 	int m_nHeight;
 	int m_nScale;
 	std::map<std::string, SDL_Texture*> m_Textures;
+
+
 public:
 	CTextureHandler() : m_CurrentTexture(nullptr), m_nWidth(0), m_nHeight(0), m_nScale(1) {};
 	~CTextureHandler();
@@ -23,13 +25,14 @@ public:
 	void RenderTexture(SDL_Renderer* renderer, Vector2 point, SDL_Rect* clip = nullptr, double angle = 0, SDL_Point* center = nullptr, SDL_RendererFlip fliptype = SDL_RendererFlip::SDL_FLIP_NONE);
 	void SetCurrentTexture(std::string id);
 	
-	
+	SDL_Texture* GetCurrentTexture();
 
 
-	void SetScale(int scale);
 	int GetWidth() { return this->m_nWidth*m_nScale; };
 	int GetHeight() { return this->m_nHeight*m_nScale;};
 
+	void SetScale(int scale);
+	
 	
 	void Cleanup();
 };

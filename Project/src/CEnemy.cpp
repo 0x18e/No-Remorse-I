@@ -3,7 +3,7 @@
 
 void CEnemy::Init(SDL_Renderer* renderer, Vector2 initial_position) {
 	this->m_Position = initial_position;
-	m_EntityTexture.SetScale(2);
+	this->SetScale(2);
 	/*
 	for (size_t i = 0; i < m_AnimPaths.size(); ++i) {
 		m_EntityTexture.LoadTexture(renderer, anim_paths[i], ids[i]);
@@ -30,13 +30,13 @@ void CEnemy::ChasePlayer(Vector2 player_position) {
 	Vector2 unit_vec = UnitVector(distance_vector);
 
 	// Lets the zombie move towards the player with its base speed
-	if (Magnitude(distance_vector) < 10) {
-		m_Velocity.x = 0;
-		m_Velocity.y = 0;
-	}
-	else {
-		m_Velocity = unit_vec * m_fEnemySpeed;
-	}
+	//if (Magnitude(distance_vector) < 10) {
+		//m_Velocity.x = 0;
+		//m_Velocity.y = 0;
+	//}
+	
+	m_Velocity = unit_vec * m_fEnemySpeed;
+	
 	// this might be very costly
 	m_dAngle = atan2(long(player_position.y - m_Position.y), long(player_position.x- m_Position.x)) * long(180 / M_PI) - 90;
 
@@ -49,6 +49,14 @@ void CEnemy::TakeDamage(int damage) {
 
 void CEnemy::SetEnemySpeed(float speed) {
 	this->m_fEnemySpeed = speed;
+}
+
+void CEnemy::SetVisibility(bool visibility) {
+	this->m_bIsVisible = visibility;
+}
+
+bool CEnemy::GetVisibility() {
+	return m_bIsVisible;
 }
 
 void CEnemy::KnockBack(Vector2 impact_force) {
@@ -83,6 +91,3 @@ void CEnemy::Cleanup() {
 	this->m_EntityTexture.Cleanup();
 }
 
-void CEnemy::SetScale(int scale) {
-	this->m_EntityTexture.SetScale(scale);
-}

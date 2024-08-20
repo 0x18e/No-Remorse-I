@@ -36,6 +36,11 @@ void CTextureHandler::SetCurrentTexture(std::string id) {
 	m_nHeight *= m_nScale;
 }
 
+SDL_Texture* CTextureHandler::GetCurrentTexture() {
+	
+	return m_CurrentTexture;
+}
+
 
 void CTextureHandler::SetScale(int scale) {
 	m_nScale = scale;
