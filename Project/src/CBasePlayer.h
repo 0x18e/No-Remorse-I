@@ -3,7 +3,6 @@
 #include "Utilities.h"
 #include "CEntity.h"
 #include "CWeapon.h"
-#include "CSoundManager.h"
 #include "CFlashlight.h"
 #include <map>
 
@@ -14,10 +13,10 @@ private:
 	int m_nMousePositionX = 0;
 	int m_nMousePositionY = 0;
 	bool m_bIsShooting = false;
-	//CWeapon m_Gun;
 	CPistol m_Gun;
 	CShotgun m_Shotgun;
 	CFlashlight m_Flashlight;
+	CWeaponHandler m_WeaponHandler;
 	
 
 	struct DIRECTIONS {
@@ -34,17 +33,12 @@ public:
 	void Init(SDL_Renderer* renderer, const char* path_to_texture, Vector2 initial_position);
 	void Destroy();
 
-	
-
 	void WeaponUpdate(int windowx, int windowy, const float& dt);
 	void WeaponRenderer(SDL_Renderer* renderer, int windowx, int windowy);
-	CEntity& GetFlashlight() { return m_Flashlight.GetCollider(); }
-	const std::vector<CBullet*> GetWeaponBullets() { return m_Gun.GetBullets(); }
+	const std::vector<CBullet*> GetWeaponBullets() { return m_WeaponHandler.GetBullets(); }
 
+	bool CheckFlashlightVisibility(CEnemy& enemy);
 	void InputHandler(const SDL_Event& key, SDL_Renderer* renderer);
 	void Move(float dt, Vector2 camera);
 	void HandleRotation();
-
-
-
 };

@@ -1,6 +1,6 @@
 #include "CLogic.h"
 
-CLogic::CLogic() : m_pRenderer(nullptr), m_nWindowHeight(0), m_nWindowWidth(0){
+CLogic::CLogic() : m_pRenderer(nullptr), m_nWindowHeight(0), m_nWindowWidth(0) {
 
 }
 
@@ -12,9 +12,6 @@ void CLogic::Init(SDL_Renderer* renderer, int WindowWidth, int WindowHeight) {
 	SetRenderer(renderer);
 	m_nWindowWidth = WindowWidth;
 	m_nWindowHeight = WindowHeight;
-	
-
-	
 
 	// Explicit conversion to avoid compiler warnings barking at me
 	m_Player.Init(m_pRenderer, "sprites/girl_right.png", Vector2((float)(m_nWindowWidth / 2), (float)(m_nWindowHeight / 2)));
@@ -55,13 +52,18 @@ void CLogic::Update(float dt) {
 			// LAZY CODE FIX LATER
 			m_pEnemies[it]->Die();
 		}
-	}
-	for (CEnemy* enemy : m_pEnemies) {
-		if (enemy->IsCollided(m_Player.GetFlashlight())) {
-			enemy->SetVisibility(true);
+		if (m_pEnemies[it]->IsCollided(m_Player)) {
+			LOG("hit player");
+		}
+		// use flashlight function to check for collision with enemies
+		if (m_Player.CheckFlashlightVisibility(*m_pEnemies[it])) {
+			m_pEnemies[it]->SetVisibility(true);
+		}
+		else {
+			m_pEnemies[it]->SetVisibility(false);
 		}
 	}
-	
+
 	// Collision Checks will be changed later on to use quadtrees instead
 	if (m_Player.GetWeaponBullets().size() > 0) {
 		for (CBullet* bullet : m_Player.GetWeaponBullets()) {
@@ -71,7 +73,7 @@ void CLogic::Update(float dt) {
 						LOG("Hit");
 						enemy->TakeDamage(bullet->GetDamage()); // arbitrary random number i chose, this will be replaced with bullet damage
 						enemy->KnockBack(Vector2(bullet->GetImpactForce(), bullet->GetImpactForce())); // Arbitrary random numbers for impact force
-						//CSoundManager::Get().PlaySound("enemy_hit");
+						CSoundManager::Get().PlaySound("enemy_hit");
 						enemy->SetVisibility(true);
 						bullet->SetKillFlag(true);
 					}
@@ -88,14 +90,14 @@ void CLogic::Render(){
 	SDL_RenderClear(m_pRenderer);
 	
 	m_Player.WeaponRenderer(m_pRenderer, m_nWindowWidth, m_nWindowHeight);
+	
+	m_Player.Render(m_pRenderer);
+
 	for (size_t i = 0; i < m_pEnemies.size(); ++i) {
 		if (m_pEnemies[i]->GetVisibility()) {
-			//m_pEntities[i]->Render(m_pRenderer);
 			m_pEnemies[i]->Render(m_pRenderer);
 		}
 	}
-	m_Player.Render(m_pRenderer);
-
 
 	
 	SDL_RenderPresent(m_pRenderer);

@@ -60,7 +60,8 @@ void CPistol::Shoot(SDL_Renderer* renderer, double player_angle, Vector2 player_
 	bullet->Init(renderer, "sprites/small_gun_bullet.png", player_angle, player_position);
 
 	Vector2 mouse_position = GetMousePosition();
-	mouse_position += Vector2(GetRandomNumber(-m_fWeaponAccuracy, m_fWeaponAccuracy), GetRandomNumber(-m_fWeaponAccuracy, m_fWeaponAccuracy)); // add inacuraccy
+	// add inacuraccy
+	mouse_position += Vector2(GetRandomNumber(-m_fWeaponAccuracy, m_fWeaponAccuracy), GetRandomNumber(-m_fWeaponAccuracy, m_fWeaponAccuracy));
 
 	Vector2 direction_vector = UnitVector(mouse_position - player_position);
 	bullet->SetSpeed(m_fWeaponSpeed);
@@ -71,8 +72,68 @@ void CPistol::Shoot(SDL_Renderer* renderer, double player_angle, Vector2 player_
 
 void CShotgun::Shoot(SDL_Renderer* renderer, double player_angle, Vector2 player_position) {
 	for (int i = 0; i < m_nPelletCount; ++i) {
+		SetAccuracy(70); // less is better
 		CBullet* bullet = new CBullet;
 		bullet->Init(renderer, "sprites/small_gun_bullet.png", player_angle, player_position);
+		Vector2 mouse_position = GetMousePosition();
+		// add inacuraccy
+		mouse_position += Vector2(GetRandomNumber(-m_fWeaponAccuracy, m_fWeaponAccuracy), GetRandomNumber(-m_fWeaponAccuracy, m_fWeaponAccuracy));
+
+		Vector2 direction_vector = UnitVector(mouse_position - player_position);
+		bullet->SetSpeed(m_fWeaponSpeed);
+		bullet->SetBulletVelocity(direction_vector);
+		m_Bullets.push_back(bullet);
 	}
 	
+}
+
+
+
+CWeaponHandler::CWeaponHandler() {
+
+}
+
+CWeaponHandler::~CWeaponHandler() {
+	for (int i = 0; i < 2; ++i) {
+		arr[i]->Cleanup();
+		arr[i] = nullptr;
+	}
+}
+
+void CWeaponHandler::Init() {
+	arr[0] = &m_Pistol;
+	arr[1] = &m_Shotgun;
+}
+
+int CWeaponHandler::GetCurrentWeapon() {
+	return m_CurrentWeapon;
+}
+
+void CWeaponHandler::ShootCurrentWeapon(SDL_Renderer* renderer, double player_angle, Vector2 player_position) {
+	if (m_CurrentWeapon == PISTOL) {
+		CSoundManager::Get().PlaySound("pistol_shoot");
+	}
+	if (m_CurrentWeapon == SHOTGUN) {
+		CSoundManager::Get().PlaySound("shotgun_shoot");
+	}
+	arr[m_CurrentWeapon]->Shoot(renderer, player_angle, player_position);
+}
+
+void CWeaponHandler::SwapWeapon() {
+	LOG("previous weapon index " << m_CurrentWeapon);
+	CSoundManager::Get().PlaySound("weapon_swap");
+	m_CurrentWeapon = !m_CurrentWeapon;
+	LOG(m_CurrentWeapon);
+}
+
+void CWeaponHandler::RenderBullets(SDL_Renderer* renderer) {
+	arr[m_CurrentWeapon]->RenderBullets(renderer);
+}
+
+void CWeaponHandler::UpdateBullets(int windowx, int windowy, const float& dt) {
+	arr[m_CurrentWeapon]->UpdateBullets(windowx, windowy, dt);
+}
+
+std::vector<CBullet*> CWeaponHandler::GetBullets() {
+	return arr[m_CurrentWeapon]->GetBullets();
 }

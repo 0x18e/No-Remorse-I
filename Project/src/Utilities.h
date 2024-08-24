@@ -83,3 +83,4 @@ struct Vector2 {
 
 float Magnitude(Vector2 vec);
 Vector2 UnitVector(Vector2 vector);
+float Distance(Vector2 v1, Vector2 v2);

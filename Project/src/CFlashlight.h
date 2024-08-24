@@ -1,5 +1,6 @@
 #pragma once
 #include "CEntity.h"
+#include "CEnemy.h"
 class CFlashlight : public CEntity {
 private:
 	SDL_Texture* m_FlashlightTexture;
@@ -8,7 +9,9 @@ private:
 	float m_fRatioScale;
 public:
 	void Init(SDL_Renderer* renderer, Vector2 initial_pos, Vector2 player_dimensions, int player_scale);
-	void RenderFlashlight(SDL_Renderer* renderer, Vector2 player_position, Vector2 player_dimensions, float angle);
-	CEntity& GetCollider() { return *this; }
+	void RenderFlashlight(SDL_Renderer* renderer);
+	void UpdateFlashlight(Vector2 player_position, float angle);
+	bool CheckVisibility(CEnemy& enemy);
+	
 
 };

@@ -5,6 +5,7 @@
 #include "CBullet.h"
 #include "CEnemies.h"
 #include "Utilities.h"
+#include "CSoundManager.h"
 
 
 // Will do for now.
@@ -19,7 +20,7 @@ protected:
 	float m_fWeaponAccuracy = 10;
 
 public:
-		std::vector<CBullet*> GetBullets() { return m_Bullets; }
+	const std::vector<CBullet*> GetBullets() { return m_Bullets; }
 	virtual void Shoot(SDL_Renderer* renderer, double player_angle, Vector2 player_position);
 	void SetWeaponSpeed(float speed);
 	void SetAccuracy(float accuracy);
@@ -42,6 +43,34 @@ private:
 	int m_nPelletCount = 5;
 public:
 	void Shoot(SDL_Renderer* renderer, double player_angle, Vector2 player_position) override;
+};
+
+enum WEAPONS {
+	PISTOL,
+	SHOTGUN
+};
+class CWeaponHandler {
+private:
+	CShotgun m_Shotgun;
+	CPistol m_Pistol;
+	CWeapon *arr[2];
+	bool m_CurrentWeapon = PISTOL;
+
+
+public:
+	// This function will shoot whatever the current weapon that is held is
+	CWeaponHandler();
+	~CWeaponHandler();
+
+
+
+	void Init();
+	int GetCurrentWeapon();
+	void ShootCurrentWeapon(SDL_Renderer *renderer, double player_angle, Vector2 player_position);
+	void SwapWeapon();
+	void RenderBullets(SDL_Renderer* renderer);
+	void UpdateBullets(int windowx, int windowy, const float& dt);
+	std::vector<CBullet*> GetBullets();
 };
 
 

@@ -153,3 +153,7 @@ float Magnitude(Vector2 vec) {
 Vector2 UnitVector(Vector2 vector) {
 	return Vector2(vector.x / Magnitude(vector), vector.y / Magnitude(vector));
 }
+
+float Distance(Vector2 v1, Vector2 v2) {
+	return std::sqrt(std::pow(v2.x - v1.x, 2) + std::pow(v2.y - v1.y, 2));
+}

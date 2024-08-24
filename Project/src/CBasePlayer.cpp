@@ -7,24 +7,37 @@ CBasePlayer::CBasePlayer() {
 void CBasePlayer::Init(SDL_Renderer* renderer, const char* path_to_texture, Vector2 initial_position) {
 
 	m_Position = initial_position;
-	m_EntityTexture.LoadTexture(renderer, "sprites/girl_shoot.png", "girl_shoot");
+	
+	m_EntityTexture.LoadTexture(renderer, "sprites/girl_shoot.png", "girl_pistol");
+	m_EntityTexture.LoadTexture(renderer, "sprites/girl_shotgun.png", "girl_shotgun");
+	// super hacky....
 	// In secret, this line is a super hacky fix....
+	
 	m_EntityTexture.LoadTexture(renderer, "sprites/girl_idle.png", "girl_idle");
+	
 	this->SetScale(2);
 	m_Flashlight.Init(renderer, initial_position, this->GetDimensions(), this->GetScale());
 	m_EntityTexture.SetCurrentTexture("girl_idle");
+	
+	m_WeaponHandler.Init();
 }
 
 
 void CBasePlayer::WeaponUpdate(int windowx, int windowy, const float& dt) {
-	m_Gun.UpdateBullets(windowx, windowy, dt);
+	m_Flashlight.UpdateFlashlight(m_Position, m_dAngle);
+	m_WeaponHandler.UpdateBullets(windowx, windowy, dt);
 }
 
 void CBasePlayer::WeaponRenderer(SDL_Renderer* renderer, int windowx, int windowy) {
-	m_Flashlight.RenderFlashlight(renderer, this->GetPosition(), this->GetDimensions(), m_dAngle);
-	m_Gun.RenderBullets(renderer);
+	m_Flashlight.RenderFlashlight(renderer);
+	m_WeaponHandler.RenderBullets(renderer);
 }
 
+
+bool CBasePlayer::CheckFlashlightVisibility(CEnemy& enemy) {	
+	// call flashlight function to check enemy distance
+	return this->m_Flashlight.CheckVisibility(enemy);
+}
 
 void CBasePlayer::InputHandler(const SDL_Event& event, SDL_Renderer* renderer) {
 	switch (event.type) {
@@ -32,12 +45,18 @@ void CBasePlayer::InputHandler(const SDL_Event& event, SDL_Renderer* renderer) {
 		HandleRotation();
 		break;
 	case SDL_MOUSEBUTTONDOWN:
-		m_EntityTexture.SetCurrentTexture("girl_shoot");
+		if (m_WeaponHandler.GetCurrentWeapon() == PISTOL) {
+			m_EntityTexture.SetCurrentTexture("girl_pistol");
+		}
+		if (m_WeaponHandler.GetCurrentWeapon() == SHOTGUN) {
+			m_EntityTexture.SetCurrentTexture("girl_shotgun");
+		}
 		
 		//m_bIsShooting = true; 
 		
-		m_Gun.Shoot(renderer, m_dAngle, m_Position);
-		//CSoundManager::Get().PlaySound("shoot");
+		//m_Gun.Shoot(renderer, m_dAngle, m_Position);
+		//CSoundManager::Get().PlaySound("shotgun_sound");
+		m_WeaponHandler.ShootCurrentWeapon(renderer, m_dAngle, m_Position);
 		HandleRotation();
 		
 		break;
@@ -64,6 +83,9 @@ void CBasePlayer::InputHandler(const SDL_Event& event, SDL_Renderer* renderer) {
 				// Down
 				case SDLK_s:
 					m_MovementDirection.DOWN = 1;
+					break;
+				case SDLK_e:
+					m_WeaponHandler.SwapWeapon();
 					break;
 				default:
 					break;

@@ -13,6 +13,8 @@ public:
 	Mix_Chunk* m_pShoot;
 	Mix_Chunk* m_pEnemyDie;
 	Mix_Chunk* m_pEnemyHit;
+	Mix_Chunk* m_pShootShotgun;
+	Mix_Chunk* m_pWeaponSwap;
 	std::map<std::string, Mix_Chunk*> m_pSounds;
 
 	bool Init();

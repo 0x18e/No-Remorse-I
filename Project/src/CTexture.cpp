@@ -46,6 +46,7 @@ void CTextureHandler::SetScale(int scale) {
 	m_nScale = scale;
 	m_nWidth *= m_nScale;
 	m_nHeight *= m_nScale;
+	LOG(m_nWidth << ", HEIGHT: " << m_nHeight);
 }
 
 void CTextureHandler::Cleanup() {
