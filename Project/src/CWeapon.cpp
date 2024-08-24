@@ -127,10 +127,13 @@ void CWeaponHandler::SwapWeapon() {
 }
 
 void CWeaponHandler::RenderBullets(SDL_Renderer* renderer) {
-	arr[m_CurrentWeapon]->RenderBullets(renderer);
+	for (int i = 0; i < 2; ++i) {
+		arr[i]->RenderBullets(renderer);
+	}
 }
 
 void CWeaponHandler::UpdateBullets(int windowx, int windowy, const float& dt) {
+
 	arr[m_CurrentWeapon]->UpdateBullets(windowx, windowy, dt);
 }
 
