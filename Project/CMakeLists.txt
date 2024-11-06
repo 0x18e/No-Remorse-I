@@ -1,21 +1,16 @@
+cmake_minimum_required(VERSION 3.20)
 
-# CMakeList.txt : Top-level CMake project file, do global configuration
-# and include sub-projects here.
-#
-cmake_minimum_required (VERSION 3.20)
-
-project (NoRemorse)
-
-# Include sub-projects.
+project(NoRemorse)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Recursively find all .cpp and .h files in the src directory
 file(GLOB_RECURSE SOURCES "${PROJECT_SOURCE_DIR}/src/*.cpp" "${PROJECT_SOURCE_DIR}/src/*.h")
 
-# Create an executable named NoRemorse
+
 add_executable(NoRemorse ${SOURCES})
+
+set(BUILD_SHARED_LIBS ON CACHE BOOL "Build shared libraries" FORCE)
 
 # Fetch SDL2
 include(FetchContent)
@@ -28,29 +23,28 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(SDL2)
 
-# Fetch SDL2_image
-#set(SDL2IMAGE_INSTALL OFF CACHE BOOL "" FORCE)  # Disable the installation step
+set(SDL2IMAGE_INSTALL OFF CACHE BOOL "" FORCE)  # Keep installation disabled
 FetchContent_Declare(
   SDL2_image
   GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git
-  GIT_TAG release-2.6.3  # Replace with the latest stable release if needed
+  GIT_TAG release-2.6.3
 )
 
 FetchContent_MakeAvailable(SDL2_image)
 
+
+set(SDL2MIXER_INSTALL OFF CACHE BOOL "" FORCE)
 FetchContent_Declare(
-    SDL2_mixer
-    GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer.git
-    GIT_TAG release-2.8.0
+  SDL2_mixer
+  GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer.git
+  GIT_TAG release-2.8.0
 )
 FetchContent_MakeAvailable(SDL2_mixer)
 
-# Link SDL2 and SDL2_image with your project
-target_link_libraries(NoRemorse PRIVATE SDL2::SDL2 SDL2::SDL2main SDL2_image::SDL2_image SDL2_mixer::SDL2_mixer)
 
+target_link_libraries(NoRemorse PUBLIC SDL2::SDL2 SDL2::SDL2main SDL2_image::SDL2_image SDL2_mixer::SDL2_mixer)
 
-
-# Copy sprites folder to the output directory
+# Copy resources to the output directory
 add_custom_command(TARGET NoRemorse POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${PROJECT_SOURCE_DIR}/sprites" "$<TARGET_FILE_DIR:NoRemorse>/sprites"
@@ -58,4 +52,16 @@ add_custom_command(TARGET NoRemorse POST_BUILD
 add_custom_command(TARGET NoRemorse POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${PROJECT_SOURCE_DIR}/sound" "$<TARGET_FILE_DIR:NoRemorse>/sound"
+)
+
+# Copy SDL2_image DLL to the output directory
+add_custom_command(TARGET NoRemorse POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+        $<TARGET_FILE:SDL2_image> $<TARGET_FILE_DIR:NoRemorse>
+)
+
+# Copy SDL2_mixer DLL to the output directory
+add_custom_command(TARGET NoRemorse POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+        $<TARGET_FILE:SDL2_mixer> $<TARGET_FILE_DIR:NoRemorse>
 )
