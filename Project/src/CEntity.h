@@ -19,7 +19,7 @@ public:
 	void AdjustForResolution(Vector2 newres, Vector2 oldres);
 	
 	bool IsCollided(CEntity &collider);
-	void SetScale(int scale);
+	void SetScale(float scale);
 	float GetScale();
 	
 	

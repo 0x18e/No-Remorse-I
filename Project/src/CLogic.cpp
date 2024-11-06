@@ -24,6 +24,7 @@ void CLogic::Init(SDL_Renderer* renderer, int WindowWidth, int WindowHeight) {
 		z->InitializeZombie(m_pRenderer, Vector2(GetRandomNumber(0, m_nWindowWidth), GetRandomNumber(0, m_nWindowHeight)));
 		m_pEnemies.push_back(z);
 		m_pEntities.push_back(z);
+		//z->SetScale(1.5);
 	}
 	m_pEntities.push_back(zombie);
 	m_pEnemies.push_back(zombie);
@@ -67,6 +68,7 @@ void CLogic::Update(float dt) {
 	// Collision Checks will be changed later on to use quadtrees instead
 	if (m_Player.GetWeaponBullets().size() > 0) {
 		for (CBullet* bullet : m_Player.GetWeaponBullets()) {
+			bullet->SetScale(1.1);
 			for (CEnemy* enemy : m_pEnemies) {
 				if (enemy->IsAlive() != false) {
 					if (bullet->IsCollided(*enemy)) {

@@ -11,7 +11,7 @@ private:
 	SDL_Texture* m_CurrentTexture;
 	int m_nWidth;
 	int m_nHeight;
-	int m_nScale;
+	float m_nScale;
 	std::map<std::string, SDL_Texture*> m_Textures;
 
 
@@ -31,7 +31,7 @@ public:
 	int GetWidth() { return this->m_nWidth*m_nScale; };
 	int GetHeight() { return this->m_nHeight*m_nScale;};
 
-	void SetScale(int scale);
+	void SetScale(float scale);
 	
 	
 	void Cleanup();

@@ -42,7 +42,7 @@ SDL_Texture* CTextureHandler::GetCurrentTexture() {
 }
 
 
-void CTextureHandler::SetScale(int scale) {
+void CTextureHandler::SetScale(float scale) {
 	m_nScale = scale;
 	m_nWidth *= m_nScale;
 	m_nHeight *= m_nScale;

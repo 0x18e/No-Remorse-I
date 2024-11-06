@@ -24,13 +24,16 @@ void CBasePlayer::Init(SDL_Renderer* renderer, const char* path_to_texture, Vect
 
 
 void CBasePlayer::WeaponUpdate(int windowx, int windowy, const float& dt) {
-	m_Flashlight.UpdateFlashlight(m_Position, m_dAngle);
 	m_WeaponHandler.UpdateBullets(windowx, windowy, dt);
+	m_Flashlight.UpdateFlashlight(m_Position, m_dAngle);
+	
 }
 
 void CBasePlayer::WeaponRenderer(SDL_Renderer* renderer, int windowx, int windowy) {
+	
 	m_Flashlight.RenderFlashlight(renderer);
 	m_WeaponHandler.RenderBullets(renderer);
+
 }
 
 

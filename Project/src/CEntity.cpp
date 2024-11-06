@@ -37,7 +37,7 @@ bool CEntity::IsCollided(CEntity &collider)
 	return true;
 }
 
-void CEntity::SetScale(int scale){
+void CEntity::SetScale(float scale){
     this->m_nScale = scale;
     m_EntityTexture.SetScale(m_nScale);
 }

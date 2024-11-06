@@ -7,8 +7,6 @@
 int main(int argc, char* args[]) {
 
 	CEngine Engine;
-
-
 	if (Engine.Initialize()) {
 		Engine.Run();
 	}

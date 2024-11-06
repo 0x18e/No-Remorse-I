@@ -14,3 +14,11 @@ public:
 	void InitializeZombie(SDL_Renderer* renderer, Vector2 initial_position);
 
 };
+
+class CBigZombie : public CEnemy {
+private:
+public:
+
+	void InitializeZombie(SDL_Renderer* renderer, Vector2 initial_position);
+
+};

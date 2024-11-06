@@ -38,7 +38,7 @@ void CEnemy::ChasePlayer(Vector2 player_position) {
 	m_Velocity = unit_vec * m_fEnemySpeed;
 	
 	// this might be very costly
-	m_dAngle = atan2(long(player_position.y - m_Position.y), long(player_position.x- m_Position.x)) * long(180 / M_PI) - 90;
+	m_dAngle = atan2(long(player_position.y - m_Position.y), long(player_position.x- m_Position.x)) * long(180 / M_PI);
 
 	
 }
